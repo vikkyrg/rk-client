@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #12372A;
+  --color-charcoal: #17211D;
+  --color-emerald: #1F8A70;
+  --color-emerald-hover: #17715B;
+  --color-seafoam: #63C7A5;
+  --color-sand: #D8B77A;
+  --color-sand-hover: #C5A467;
+  --color-ivory: #F7F5EF;
+  --color-card: #FFFFFF;
+  --color-lightgreen: #EAF4EF;
+  --color-darktext: #17211D;
+  --color-mutedtext: #68736D;
+  --color-border-custom: #DDE5DF;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --forest: #12372A;
+  --charcoal: #17211D;
+  --emerald: #1F8A70;
+  --seafoam: #63C7A5;
+  --sand: #D8B77A;
+  --ivory: #F7F5EF;
+  --lightgreen: #EAF4EF;
+  --darktext: #17211D;
+  --mutedtext: #68736D;
+  --border-custom: #DDE5DF;
+}
+
+html {
+  /* Use 'auto' instead of 'smooth' — smooth scroll causes jank on initial page render */
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F7F5EF;
+  color: #17211D;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  /* Promote body to its own compositor layer — prevents layout recalculations */
+  will-change: auto;
+}
+
+/* ===========================
+   PAGE ENTRANCE TRANSITION
+   Fast, GPU-accelerated opacity+translate using transform only.
+   No layout-triggering properties like width/height.
+   =========================== */
+@keyframes pageEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: pageEntrance 0.28s ease-out forwards;
+  /* Force GPU layer for smooth composite animation */
+  will-change: opacity, transform;
+}
+
+/* Cleanup will-change after animation completes */
+.page-transition-done {
+  will-change: auto;
+}
+
+/* ===========================
+   FADE-IN UTILITY
+   Used for success messages etc.
+   =========================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.22s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+/* ===========================
+   SUBTLE SECTION REVEAL
+   Replaces heavy blur-based animations.
+   Triggered via JS IntersectionObserver (optional, handled in components).
+   =========================== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.35s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+/* ===========================
+   HERO BACKGROUND PATTERNS
+   Use CSS gradients only — no blur filters on background layers.
+   Blur filters force a full stacking context repaint on every frame.
+   =========================== */
+.bg-hero-pattern {
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(31,138,112,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(99,199,165,0.14) 0%, transparent 55%),
+    linear-gradient(135deg, #12372A 0%, #17211D 100%);
+}
+
+.bg-organic-pattern {
+  background-color: #F7F5EF;
+  /* Static gradient — no animated/blurred overlays */
+  background-image:
+    radial-gradient(ellipse at 10% 10%, rgba(31,138,112,0.04) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 90%, rgba(99,199,165,0.04) 0%, transparent 45%);
+}
+
+.bg-dark-section {
+  background: linear-gradient(180deg, #12372A 0%, #17211D 100%);
+}
+
+/* ===========================
+   CUSTOM SCROLLBAR
+   =========================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F5EF;
+}
+::-webkit-scrollbar-thumb {
+  background: #1F8A70;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #12372A;
+}
+
+/* ===========================
+   UTILITY — will-change only where needed
+   Apply to interactive elements with hover transforms
+   =========================== */
+.interactive {
+  will-change: transform;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out forwards;
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in {
+  animation: scale-in 0.25s ease-out forwards;
+}
